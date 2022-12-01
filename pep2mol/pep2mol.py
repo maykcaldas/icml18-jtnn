@@ -99,5 +99,7 @@ def main():
                 for node in mol.nodes:
                     print("{}:{:>10s} {}".format(node.nid, node.smiles, np.array(node.feat_vec)))
 
+
 if __name__ == "__main__":
-    main
+    main()
+
