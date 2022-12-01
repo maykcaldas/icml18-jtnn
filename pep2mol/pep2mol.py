@@ -1,6 +1,4 @@
-import os
-os.environ["PYTHONPATH"] = "~/Users/maykcaldas/Documents/WhiteLab/pep2mol/icml18-jtnn"
-
+# Remember to add $PATH/icml18-jtnn to $PYTHONPATH
 import rdkit
 import numpy as np
 import json
@@ -34,7 +32,8 @@ def hide_leafs(tree, prob, vocab):
         if node.is_leaf and np.random.random() < prob:
             node.smiles = "null"
             node.is_leaf = False
-            node.feat_vec = np.zeros(len(vocab)) 
+            node.feat_tok = vocab[node.smiles]
+            node.feat_vec = np.zeros(len(vocab))
             node.feat_vec[vocab[node.smiles]] = 1
             null_nodes.append(node)
     for node in null_nodes:
@@ -90,14 +89,14 @@ def main():
             for node in mol.nodes:
                 print("{}:{:>10s} {}".format(node.nid, node.smiles, np.array(node.feat_vec)))
 
-        add_noise(mol, 0, 0.01)
+        # add_noise(mol, 0, 0.01)
         for _ in range(3):
             hide_leafs(mol, 0.1, stoi)
 
-        if VERBOSE:
+        if 1:
             with np.printoptions(precision=4):
                 for node in mol.nodes:
-                    print("{}:{:>10s} {}".format(node.nid, node.smiles, np.array(node.feat_vec)))
+                    print("{:>2d}: {}{:>10s} {}".format(node.nid, node.feat_tok ,node.smiles, np.array(node.feat_vec)))
 
 
 if __name__ == "__main__":

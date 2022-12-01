@@ -12,6 +12,7 @@ class MolTreeNode(object):
         
         # I don't have jax in this env. But jax.nn.one_hot would solve it faster
         if vocab:
+            self.feat_tok = vocab[smiles]
             self.feat_vec = np.zeros(len(vocab)) 
             self.feat_vec[vocab[smiles]] = 1
 
